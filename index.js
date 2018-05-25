@@ -45,13 +45,13 @@ const generateCiphers = (shift) => {
  * @returns {string} - encrypted words
  */
 const encrypt = (words, shift) => {
+    const num = parseInt(shift,10) // convert shift to integer
     // check if shift is valid and between 0 and 26
-    if (shift >= 26 || shift <= 0 || !(typeof shift === "number")) {
+    if (num >= 26 || num <= 0 || isNaN(num)) {
         return "Invalid shift, shift must be between range [0 < shift < 26]"
     }
     else {
     let encryptedText = ''
-    const num = parseInt(shift,10) // convert shift to integer
     const encryptionCiphers = generateCiphers(num).ciphersHolder
     words.split('').forEach((ch) => {
         if (encryptionCiphers[ch]) {
@@ -72,12 +72,13 @@ const encrypt = (words, shift) => {
  * @returns {string} - decrypted words
  */
 const decrypt = (words, shift) => {
-    if (shift >= 26 || shift <= 0 || !(typeof shift === "number")) {
+    const num = parseInt(shift,10) // convert shift to integer
+    // check if shift is valid and between 0 and 26
+    if (num >= 26 || num <= 0 || isNaN(num)) {
         return "Invalid shift, shift must be between range [0 < shift < 26]"
     }
     else {
     let decryptedText = ''
-    const num = parseInt(shift,10) // convert shift to integer
     decryptionCiphers = generateCiphers(num).decryptHolder
     words.split('').forEach((ch) => {
         if (decryptionCiphers[ch]) {
