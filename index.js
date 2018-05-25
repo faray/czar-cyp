@@ -17,7 +17,7 @@ const generateCiphers = (shift) => {
      * Add the ciphers to the respective objects
     */
     arrayOfAlpha.forEach((alpha) => {
-        const ind = arrayOfAlpha.indexOf(alpha)
+        const ind = arrayOfAlpha.indexOf(alpha) // index of the alphabet in the arrayOfAlpha
         if (ind - shift < 0) {
             nInd = (arrayOfAlpha.length + ind) - shift
             ciphersHolder[alpha] = arrayOfAlpha[nInd]
