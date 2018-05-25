@@ -1,11 +1,21 @@
+
+// get reference to dom objects/elements for textbox & output 
 const outputElement = document.getElementById("answer")
 const inputElement = document.getElementById("word-textbox")
 
+/**
+ * @description - This is a function to generate the ciphers according to the given shift
+ * @param {number} shift 
+ * @returns {object} an object containing the ciphers
+ */
 const generateCiphers = (shift) => {
-    const arrayOfAlpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
-    const ciphersHolder = {}
-    const decryptHolder = {}
+    const arrayOfAlpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('') // create an array of all english alphabets
+    const ciphersHolder = {} // empty object for holding ciphers for encryption
+    const decryptHolder = {} // empty object for holding ciphers for decryption
     
+    /* loop through the alphaArrays, get the ciphers for(both uppercase & lowercase)
+     * Add the ciphers to the respective objects
+    */
     arrayOfAlpha.forEach((alpha) => {
         const ind = arrayOfAlpha.indexOf(alpha)
         if (ind - shift < 0) {
@@ -25,17 +35,24 @@ const generateCiphers = (shift) => {
         }
     })
 
-    return [ciphersHolder, decryptHolder]
+    return { ciphersHolder, decryptHolder }
 }
 
+/**
+ * @description - This function encrypts the given words according to the given shift argument
+ * @param {string} words 
+ * @param {number} shift 
+ * @returns {string} - encrypted words
+ */
 const encrypt = (words, shift) => {
-    if (shift >= 26 || shift <= 0) {
+    // check if shift is valid and between 0 and 26
+    if (shift >= 26 || shift <= 0 || !(typeof shift === "number")) {
         return "Invalid shift, shift must be between range [0 < shift < 26]"
     }
     else {
     let encryptedText = ''
-    const num = parseInt(shift,10)
-    const encryptionCiphers = generateCiphers(num)[0]
+    const num = parseInt(shift,10) // convert shift to integer
+    const encryptionCiphers = generateCiphers(num).ciphersHolder
     words.split('').forEach((ch) => {
         if (encryptionCiphers[ch]) {
             encryptedText += encryptionCiphers[ch]
@@ -48,14 +65,20 @@ const encrypt = (words, shift) => {
     }
 }
 
+/**
+ * @description - This function decrypts the given words according to the given shift argument
+ * @param {string} words 
+ * @param {number} shift 
+ * @returns {string} - decrypted words
+ */
 const decrypt = (words, shift) => {
-    if (shift >= 26 || shift <= 0) {
+    if (shift >= 26 || shift <= 0 || !(typeof shift === "number")) {
         return "Invalid shift, shift must be between range [0 < shift < 26]"
     }
     else {
     let decryptedText = ''
-    const num = parseInt(shift,10)
-    decryptionCiphers = generateCiphers(num)[1]
+    const num = parseInt(shift,10) // convert shift to integer
+    decryptionCiphers = generateCiphers(num).decryptHolder
     words.split('').forEach((ch) => {
         if (decryptionCiphers[ch]) {
             decryptedText += decryptionCiphers[ch] 
@@ -68,16 +91,20 @@ const decrypt = (words, shift) => {
     }
 }
 
-//entry point
-const check = (action, n) => {
+/**
+ * @description This is the entry point for the app
+ * @param {string} action 
+ * @param {number} n 
+ */
+const main = (action, n) => {
     //gets value of input in textbox
     const words = inputElement.value
-    //checks if it is empty
+    //checks if input is empty
     if(words === undefined || words.trim()==="" || words===""){
         outputElement.innerHTML = "Input is Empty!!!"
     }
 
-    //if not empty,
+    //if not empty
     else{
         switch(action){
             case 'encrypt':
